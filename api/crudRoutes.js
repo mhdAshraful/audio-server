@@ -15,7 +15,7 @@ productRouter.route('/api/allproducts').get((req, res) => {
             res.send(err.message);
 
         } else {
-            console.log(data);
+            console.log("server data:", data);
             res.json(data);
         }
     })
