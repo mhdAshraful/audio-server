@@ -3,7 +3,7 @@ const { json } = require("express");
 // import mongoose from "mongoose";
 const mongoose = require("mongoose");
 const cors = require("cors");
-const productRouter = require("./api/crudRoutes.js");
+const ServerRouter = require("./api/crudRoutes.js");
 
 require("dotenv").config();
 
@@ -36,7 +36,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@db
         console.log("Error detected:", e);
     })
 
-app.use('/', productRouter);
+app.use('/', ServerRouter);
 
 app.listen(port, () => {
     console.log(`server running at ${port}`);
