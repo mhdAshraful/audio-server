@@ -29,7 +29,8 @@ app.use(json());
 
 mongoose
 	.connect(
-		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}?retryWrites=true&w=majority`
+		// `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}?retryWrites=true&w=majority`
+		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}`
 	)
 	.then(() => {
 		console.log("database connected");
