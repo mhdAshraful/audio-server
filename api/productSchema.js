@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const PSCHEMA = new Schema(
+const productSchema = new mongoose.Schema(
 	{
 		id: { type: Number },
 		category: { type: String },
@@ -72,5 +71,5 @@ const PSCHEMA = new Schema(
 	{ collection: "AllProducts" }
 );
 
-const mdl = mongoose.model("PRODUCT_SCHEMA", PSCHEMA);
-module.exports = mdl;
+const Product = mongoose.model("Product", productSchema);
+module.exports = Product;

@@ -1,6 +1,5 @@
 const express = require("express");
 const { json } = require("express");
-// import mongoose from "mongoose";
 const mongoose = require("mongoose");
 const cors = require("cors");
 const ServerRouter = require("./api/crudRoutes.js");
@@ -20,7 +19,7 @@ app.use("/", (req, res, next) => {
 	);
 	next();
 });
-// currently running in local after accepting mongoDB T&C
+
 app.use(
 	cors({
 		origin: "*",
@@ -34,7 +33,6 @@ app.use(json());
 
 mongoose
 	.connect(
-		// `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}?retryWrites=true&w=majority`
 		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}`
 	)
 	.then(() => {
