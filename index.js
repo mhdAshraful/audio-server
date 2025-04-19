@@ -9,26 +9,13 @@ require("dotenv").config();
 const port = 5555;
 const app = express();
 
-// has to be before eveything else
-app.use("/", (req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
-	);
-	next();
-});
-
 app.use(
 	cors({
 		origin: [
-			"http://localhost:3000",
 			"https://audiophile-green-alpha.vercel.app",
-			"*",
+			"http://localhost:3000",
 		],
 		methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-		preflightContinue: true,
 		credentials: true,
 	})
 );
