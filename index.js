@@ -10,10 +10,7 @@ const port = 5555;
 const app = express();
 
 const corsOptions = {
-	origin: [
-		"https://audiophile-green-alpha.vercel.app",
-		"http://localhost:3000",
-	],
+	origin: "*",
 	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
 	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 	exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
