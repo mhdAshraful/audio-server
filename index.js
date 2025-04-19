@@ -22,7 +22,11 @@ app.use("/", (req, res, next) => {
 
 app.use(
 	cors({
-		origin: ["http://localhost:3000", "*"],
+		origin: [
+			"http://localhost:3000",
+			"https://audiophile-green-alpha.vercel.app",
+			"*",
+		],
 		methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
 		preflightContinue: true,
 		credentials: true,
