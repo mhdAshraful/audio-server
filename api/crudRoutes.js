@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const PRODUCT_SCHEMA = require("./productSchema.js");
-const ORDER_SCHEMA = require("./orderSchema.js");
+const Product = require("./productSchema.js");
+const Order = require("./orderSchema.js");
 const ServerRouter = Router();
 
 ServerRouter.route("/api").get((req, res) => {
@@ -9,9 +9,9 @@ ServerRouter.route("/api").get((req, res) => {
 });
 
 ServerRouter.route("/api/allproducts").get((req, res) => {
-	PRODUCT_SCHEMA.find({})
+	Product.find({})
 		.then((docs) => {
-			res.status(200).json({ docs });
+			res.status(200).send(docs);
 		})
 		.catch((error) => {
 			console.log("error in mongoose", error);
@@ -21,7 +21,7 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 ServerRouter.route("/api/orderDetails").post((req, res) => {
 	let orderInformation = req.body;
 	console.log("recieved order in server----------->>>>>>>>", orderInformation);
-	ORDER_SCHEMA.create(orderInformation, (error, data) => {
+	Order.create(orderInformation, (error, data) => {
 		if (error) {
 			console.log("mongose error", error.message);
 			res.status(400).json({
