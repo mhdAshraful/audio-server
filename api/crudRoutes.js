@@ -25,12 +25,12 @@ ServerRouter.route("/api/orderDetails")
 		return res.status(200).end();
 	})
 	.post((req, res) => {
-		// res.setHeader(
-		// 	"Access-Control-Allow-Origin",
-		// 	"https://audiophile-green-alpha.vercel.app"
-		// );
-		// res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-		// res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		res.setHeader(
+			"Access-Control-Allow-Origin",
+			"https://audiophile-green-alpha.vercel.app"
+		);
+		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
 		let orderInformation = req.body;
 
