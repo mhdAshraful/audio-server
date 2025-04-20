@@ -3,11 +3,6 @@ import Product from "./productSchema.js";
 import Order from "./orderSchema.js";
 const ServerRouter = Router();
 
-ServerRouter.route("/api").get((req, res) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.send("Backend Connected");
-});
-
 ServerRouter.route("/api/allproducts").get((req, res) => {
 	Product.find({})
 		.then((docs) => {
