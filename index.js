@@ -9,23 +9,7 @@ dotenv.config();
 const app = express();
 const port = 5555;
 
-const whitelist = process.env.ALLOWED_ORIGIN;
-const corsOptions = {
-	origin: function (origin, callback) {
-		if (!origin || whitelist.includes(origin)) {
-			callback(null, true);
-		} else {
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
-	credentials: true,
-	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-	exposedHeaders: ["Content-Length"],
-	optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(json());
 

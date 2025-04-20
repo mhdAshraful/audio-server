@@ -14,39 +14,5 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 			res.status(400).json({ error });
 		});
 });
-// This route was missing per-request CORS headers and handling preflight OPTIONS request.
-// correction .options() is handling the preflight CORS request, which the browser sends before POST when custom headers or non-simple requests are involved.
-const allowedOrigin = process.env.ALLOWED_ORIGIN;
-ServerRouter.route("/api/orderinfo")
-	.options((req, res) => {
-		// CORS preflight
-		res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
-		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-		res.setHeader(
-			"Access-Control-Allow-Headers",
-			"Content-Type, Authorization, X-Requested-With"
-		);
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-		res.sendStatus(200);
-	})
-	.post((req, res) => {
-		res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-
-		let orderInformation = req.body;
-
-		Order.create(orderInformation, (error, data) => {
-			if (error) {
-				res.status(400).json({
-					"❌ Mongose error ++-->": error,
-				});
-			} else {
-				res.status(200).json({
-					"😓 Data recieved:---->": data,
-				});
-			}
-		});
-	});
 
 export default ServerRouter;
