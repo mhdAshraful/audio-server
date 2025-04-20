@@ -9,11 +9,11 @@ dotenv.config();
 const app = express();
 const port = 5555;
 
+app.use(cors());
 app.use((req, res, next) => {
 	console.log("📨 Request Headers:", req.headers);
 	next();
 });
-app.use(cors());
 app.use(json());
 
 // ✅ Connect MongoDB
@@ -25,7 +25,7 @@ mongoose
 	.catch((e) => console.error("❌ DB Error:", e));
 
 // ✅ API Routes
-app.use("/api", ServerRouter);
+app.use("/", ServerRouter);
 
 app.listen(port, () => {
 	console.log(`🚀 Server running at http://localhost:${port}`);
