@@ -2,7 +2,8 @@ import { Router } from "express";
 import Product from "./productSchema.js";
 import Order from "./orderSchema.js";
 const ServerRouter = Router();
-
+import dotenv from "dotenv";
+dotenv.config();
 ServerRouter.route("/api/allproducts").get((req, res) => {
 	Product.find({})
 		.then((docs) => {
@@ -15,11 +16,11 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 });
 // This route was missing per-request CORS headers and handling preflight OPTIONS request.
 // correction .options() is handling the preflight CORS request, which the browser sends before POST when custom headers or non-simple requests are involved.
-
+const allowedOrigin = process.env.ALLOWED_ORIGIN;
 ServerRouter.route("/api/orderinfo")
 	.options((req, res) => {
 		// CORS preflight
-		res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+		res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
 		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
 		res.setHeader(
 			"Access-Control-Allow-Headers",
@@ -29,7 +30,7 @@ ServerRouter.route("/api/orderinfo")
 		res.sendStatus(200);
 	})
 	.post((req, res) => {
-		res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+		res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
 		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 
