@@ -20,32 +20,32 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 });
 // This route was missing per-request CORS headers and handling preflight OPTIONS request.
 // correction .options() is handling the preflight CORS request, which the browser sends before POST when custom headers or non-simple requests are involved.
-ServerRouter.route("/api/orderDetails")
-	.options((req, res) => {
-		return res.status(200).end();
-	})
-	.post((req, res) => {
-		res.setHeader(
-			"Access-Control-Allow-Origin",
-			"https://audiophile-green-alpha.vercel.app"
-		);
-		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+ServerRouter.options("/api/orderDetails", (req, res) => {
+	// ✅ For preflight requests
+	res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+	res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+	res.sendStatus(200);
+});
 
-		let orderInformation = req.body;
+ServerRouter.route("/api/orderDetails").post((req, res) => {
+	res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+	res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-		Order.create(orderInformation, (error, data) => {
-			if (error) {
-				console.log("mongose error", error.message);
-				res.status(400).json({
-					"Mongose Error ++-->": error,
-				});
-			} else {
-				res.status(200).json({
-					"Data recieved:---->": data,
-				});
-			}
-		});
+	let orderInformation = req.body;
+
+	Order.create(orderInformation, (error, data) => {
+		if (error) {
+			res.status(400).json({
+				"❌ Mongose error ++-->": error,
+			});
+		} else {
+			res.status(200).json({
+				"😓 Data recieved:---->": data,
+			});
+		}
 	});
+});
 
 module.exports = ServerRouter;

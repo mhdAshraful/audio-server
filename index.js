@@ -14,25 +14,22 @@ const allowedOrigins = [
 	"https://audiophile-green-alpha.vercel.app",
 ];
 
-const corsOptions = {
-	origin: function (origin, callback) {
-		// Allow requests with no origin (like mobile apps or curl)
-		if (!origin) return callback(null, true);
-		if (allowedOrigins.includes(origin)) {
-			callback(null, true);
-		} else {
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
-	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-	exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
-	credentials: true,
-	preflightContinue: false,
-	optionsSuccessStatus: 204,
-};
 
-app.use(cors(corsOptions));
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+		methods: ["GET", "POST", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+		exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
+		credentials: true,
+	})
+);
 
 app.use(json());
 
