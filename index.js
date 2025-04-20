@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const port = 5555;
 
-const whitelist = ["https://audiophile-green-alpha.vercel.app"];
+const whitelist = process.env.ALLOWED_ORIGIN;
 const corsOptions = {
 	origin: function (origin, callback) {
 		if (!origin || whitelist.includes(origin)) {
