@@ -9,27 +9,11 @@ dotenv.config();
 const app = express();
 const port = 5555;
 
-// ✅ Whitelist your frontend domain
-const whitelist = [
-	"https://audiophile-green-alpha.vercel.app",
-];
-
-const corsOptions = {
-	origin: function (origin, callback) {
-		if (!origin || whitelist.includes(origin)) {
-			callback(null, true);
-		} else {
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
-	credentials: true,
-	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-	exposedHeaders: ["Content-Length"],
-	optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+	console.log("📨 Request Headers:", req.headers);
+	next();
+});
+app.use(cors());
 app.use(json());
 
 // ✅ Connect MongoDB
