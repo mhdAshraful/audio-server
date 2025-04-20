@@ -25,26 +25,11 @@ let corsOptions = {
 	},
 };
 
-// cors({
-// 	origin: function (origin, callback) {
-// 		if (!origin || allowedOrigins.includes(origin)) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(new Error("Not allowed by CORS"));
-// 		}
-// 	},
-// 	methods: ["GET", "POST", "OPTIONS"],
-// 	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-// 	exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
-// 	credentials: true,
-// });
-
 app.use(
 	cors(corsOptions, {
 		methods: ["GET", "POST", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 		exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
-		credentials: true,
 	})
 );
 
