@@ -1,6 +1,6 @@
-const { Router } = require("express");
-const Product = require("./productSchema.js");
-const Order = require("./orderSchema.js");
+import { Router } from "express";
+import Product from "./productSchema.js";
+import Order from "./orderSchema.js";
 const ServerRouter = Router();
 
 ServerRouter.route("/api").get((req, res) => {
@@ -20,32 +20,33 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 });
 // This route was missing per-request CORS headers and handling preflight OPTIONS request.
 // correction .options() is handling the preflight CORS request, which the browser sends before POST when custom headers or non-simple requests are involved.
-ServerRouter.options("/api/orderDetails", (req, res) => {
-	// ✅ For preflight requests
-	res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
-	res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-	res.sendStatus(200);
-});
 
-ServerRouter.route("/api/orderDetails").post((req, res) => {
-	res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
-	res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+ServerRouter.route("/api/orderDetails")
+	.options((req, res) => {
+		// ✅ For preflight requests
+		res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		res.sendStatus(200);
+	})
+	.post((req, res) => {
+		res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-	let orderInformation = req.body;
+		let orderInformation = req.body;
 
-	Order.create(orderInformation, (error, data) => {
-		if (error) {
-			res.status(400).json({
-				"❌ Mongose error ++-->": error,
-			});
-		} else {
-			res.status(200).json({
-				"😓 Data recieved:---->": data,
-			});
-		}
+		Order.create(orderInformation, (error, data) => {
+			if (error) {
+				res.status(400).json({
+					"❌ Mongose error ++-->": error,
+				});
+			} else {
+				res.status(200).json({
+					"😓 Data recieved:---->": data,
+				});
+			}
+		});
 	});
-});
 
-module.exports = ServerRouter;
+export default ServerRouter;
