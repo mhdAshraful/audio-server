@@ -1,6 +1,5 @@
-import express from "express";
-import { json } from "express";
-import { connect } from "mongoose";
+import express, { json } from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import ServerRouter from "./api/crudRoutes.js";
 
@@ -10,10 +9,7 @@ dotenv.config();
 const port = 5555;
 const app = express();
 
-let whitelist = [
-	"http://localhost:3000",
-	"https://audiophile-green-alpha.vercel.app",
-];
+let whitelist = ["https://audiophile-green-alpha.vercel.app"];
 
 let corsOptions = {
 	origin: function (origin, callback) {
@@ -23,22 +19,27 @@ let corsOptions = {
 			callback(new Error("Not Allowed by course, Manualy set up!"));
 		}
 	},
+	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+	exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
+	preflightContinue: true,
 };
 
-app.use(
-	cors(corsOptions, {
-		methods: ["GET", "POST", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-		exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
-		Credential: true,
-	})
-);
+app.use("/", (req, res, next) => {
+	res.header(
+		"Acces-Control-Allow-Origin",
+		"https://audiophile-green-alpha.vercel.app"
+	);
+	next();
+});
+app.use(cors(corsOptions));
 
 app.use(json());
 
-connect(
-	`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}`
-)
+mongoose
+	.connect(
+		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@dbcluster.nlm3zmb.mongodb.net/${process.env.COLLECTION_NAME}`
+	)
 	.then(() => {
 		console.log("database connected");
 	})

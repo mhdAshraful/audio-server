@@ -3,6 +3,13 @@ import Product from "./productSchema.js";
 import Order from "./orderSchema.js";
 const ServerRouter = Router();
 
+ServerRouter.route("/api").get((req, res) => {
+	res.header(
+		"Acces-Control-Allow-Origin",
+		"https://audiophile-green-alpha.vercel.app"
+	);
+});
+
 ServerRouter.route("/api/allproducts").get((req, res) => {
 	Product.find({})
 		.then((docs) => {
