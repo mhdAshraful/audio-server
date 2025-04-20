@@ -30,6 +30,7 @@ app.use(
 		methods: ["GET", "POST", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 		exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
+		Credential: true,
 	})
 );
 
