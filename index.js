@@ -9,13 +9,25 @@ require("dotenv").config();
 const port = 5555;
 const app = express();
 
+const allowedOrigins = [
+	"http://localhost:3000",
+	"https://audiophile-green-alpha.vercel.app",
+];
+
 const corsOptions = {
-	origin: "*",
-	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+	origin: function (origin, callback) {
+		// Allow requests with no origin (like mobile apps or curl)
+		if (!origin) return callback(null, true);
+		if (allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error("Not allowed by CORS"));
+		}
+	},
+	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 	exposedHeaders: ["Content-Length", "X-Knowledge-Base-Version"],
 	credentials: true,
-	maxAge: 86400, // Cache preflight response for 24 hours
 	preflightContinue: false,
 	optionsSuccessStatus: 204,
 };
@@ -38,5 +50,5 @@ mongoose
 app.use("/", ServerRouter);
 
 app.listen(port, () => {
-	console.log(`server running at ${port}`);
+	console.log(`Server 🚀 at http://localhost:${port}`);
 });

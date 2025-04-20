@@ -22,21 +22,15 @@ ServerRouter.route("/api/allproducts").get((req, res) => {
 // correction .options() is handling the preflight CORS request, which the browser sends before POST when custom headers or non-simple requests are involved.
 ServerRouter.route("/api/orderDetails")
 	.options((req, res) => {
-		res.setHeader(
-			"Access-Control-Allow-Origin",
-			"https://audiophile-green-alpha.vercel.app"
-		);
-		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		return res.status(200).end();
 	})
 	.post((req, res) => {
-		res.setHeader(
-			"Access-Control-Allow-Origin",
-			"https://audiophile-green-alpha.vercel.app"
-		);
-		res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		// res.setHeader(
+		// 	"Access-Control-Allow-Origin",
+		// 	"https://audiophile-green-alpha.vercel.app"
+		// );
+		// res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+		// res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
 		let orderInformation = req.body;
 
